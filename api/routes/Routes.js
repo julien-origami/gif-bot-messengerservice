@@ -8,13 +8,19 @@ module.exports = (server) => {
     server.route({
         method: 'GET',
         path: Paths.intern.webhook,
-        handler: MessengerService.webhookSubsciption
+        handler: MessengerService.webhookSubsciption,
+        config: {
+            tags: ['api']
+        }
     })
 
     server.route({
         method: 'POST',
         path: Paths.intern.webhook,
-        handler: MessengerService.webhookReceiveMessage
+        handler: MessengerService.webhookReceiveMessage,
+        config: {
+            tags: ['api']
+        }
     })
 
     server.route({
@@ -22,6 +28,7 @@ module.exports = (server) => {
         path: Paths.intern.reply,
         handler: MessengerService.replyMessage,
         config: {
+            tags: ['api'],
             validate: {
                 payload: {
                     content: Joi.string().min(0).required(),
