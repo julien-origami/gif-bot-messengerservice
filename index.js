@@ -8,6 +8,9 @@ import swaggered from 'hapi-swaggered'
 import swaggeredUI from 'hapi-swaggered-ui'
 import vision from 'vision'
 import inert from 'inert'
+import syslog from 'syslog'
+
+const logger = syslog.createClient(514, '192.168.11.185')
 
 if (!process.env.SECRET || !process.env.MESSENGER_TOKEN) {
   throw 'Make sure you define a SECRET and a MESSENGER_TOKEN in your .env file'
@@ -45,6 +48,7 @@ routes(server)
 
 server.start((err) => {
     if (err) {
+	logger.alert(Date.now()+' Server messenger service didn\'t start')
         throw err
     }
     console.log(`Server running at: ${server.info.uri}`)
